@@ -5,6 +5,7 @@ import Login from './components/Login'
 import Register from './components/Register'
 import Dashboard from './components/Dashboard'
 import PublicGallery from './components/PublicGallery'
+import Settings from './components/Settings'
 
 function App() {
   const [user, setUser] = useState(null)
@@ -58,6 +59,10 @@ function App() {
         <Route 
           path="/upload" 
           element={user ? <Dashboard user={user} /> : <Navigate to="/login" />} 
+        />
+        <Route 
+          path="/settings" 
+          element={user ? <Settings user={user} onLogout={logout} /> : <Navigate to="/login" />} 
         />
         <Route 
           path="/" 

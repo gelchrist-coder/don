@@ -696,3 +696,157 @@ body {
     align-items: flex-start;
   }
 }
+
+/* Settings Page */
+.settings-page {
+  min-height: calc(100vh - 70px);
+  padding: 2rem;
+  background: #f8f9fa;
+}
+
+.settings-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.settings-container h1 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #1a1a1a;
+}
+
+.settings-section {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.settings-section h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #1a1a1a;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.account-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-label {
+  font-weight: 500;
+  color: #666;
+}
+
+.info-value {
+  color: #1a1a1a;
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.settings-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.settings-form label {
+  font-weight: 500;
+  color: #1a1a1a;
+  font-size: 0.9rem;
+}
+
+.settings-form input {
+  padding: 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.settings-form input:focus {
+  outline: none;
+  border-color: #1a1a1a;
+}
+
+.success-message {
+  padding: 0.75rem;
+  background: #d4edda;
+  color: #155724;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.danger-zone {
+  border: 1px solid #f8d7da;
+  background: #fff5f5;
+}
+
+.danger-zone h2 {
+  color: #dc3545;
+  border-bottom-color: #f8d7da;
+}
+
+.warning-text {
+  color: #856404;
+  background: #fff3cd;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.delete-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.delete-confirm label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.delete-confirm input {
+  padding: 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 200px;
+}
+
+.delete-confirm input:focus {
+  outline: none;
+  border-color: #dc3545;
+}
+
+@media (max-width: 600px) {
+  .settings-page {
+    padding: 1rem;
+  }
+
+  .settings-section {
+    padding: 1rem;
+  }
+
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}

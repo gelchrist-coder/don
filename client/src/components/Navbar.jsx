@@ -13,6 +13,9 @@ function Navbar({ user, onLogout }) {
         <Link to="/upload">
           <button className="btn btn-primary">Upload</button>
         </Link>
+        <Link to="/settings">
+          <button className="btn btn-secondary">⚙️</button>
+        </Link>
         <button className="btn btn-secondary" onClick={onLogout}>
           Logout
         </button>
