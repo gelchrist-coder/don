@@ -1,5 +1,13 @@
 import { useState, useEffect, useRef } from 'react'
+import { createClient } from '@supabase/supabase-js'
 import api from '../config'
+
+// Initialize Supabase client for direct uploads
+const SUPABASE_URL = 'https://suwxuwlvfvbqknydaetx.supabase.co'
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
+const supabase = SUPABASE_ANON_KEY ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null
+
+const BUCKET_NAME = 'media-uploads'
 
 function Dashboard({ user }) {
   const [media, setMedia] = useState([])
@@ -34,28 +42,63 @@ function Dashboard({ user }) {
   const handleUpload = async (files) => {
     if (!files || files.length === 0) return
 
-    const formData = new FormData()
-    Array.from(files).forEach(file => {
-      formData.append('files', file)
-    })
+    if (!supabase) {
+      alert('Upload not configured. Please add VITE_SUPABASE_ANON_KEY.')
+      return
+    }
 
     setUploading(true)
     setUploadProgress(0)
 
     try {
-      await api.post('/api/upload', formData, {
-        ...getAuthHeader(),
-        headers: {
-          ...getAuthHeader().headers,
-          'Content-Type': 'multipart/form-data'
-        },
-        onUploadProgress: (progressEvent) => {
-          const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-          setUploadProgress(progress)
+      const uploadedFiles = []
+      const totalFiles = files.length
+      let completed = 0
+
+      for (const file of Array.from(files)) {
+        const isVideo = file.type.startsWith('video/')
+        const ext = file.name.split('.').pop()
+        const uniqueName = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}.${ext}`
+        const filePath = `${user.id}/${uniqueName}`
+
+        // Upload to Supabase Storage
+        const { data, error } = await supabase.storage
+          .from(BUCKET_NAME)
+          .upload(filePath, file, {
+            contentType: file.type,
+            upsert: false
+          })
+
+        if (error) {
+          console.error('Upload error:', error)
+          continue
         }
-      })
+
+        // Get public URL
+        const { data: urlData } = supabase.storage
+          .from(BUCKET_NAME)
+          .getPublicUrl(filePath)
+
+        uploadedFiles.push({
+          url: urlData.publicUrl,
+          storagePath: filePath,
+          type: isVideo ? 'video' : 'image',
+          originalName: file.name,
+          size: file.size
+        })
+
+        completed++
+        setUploadProgress(Math.round((completed / totalFiles) * 100))
+      }
+
+      // Save metadata to database via API
+      if (uploadedFiles.length > 0) {
+        await api.post('/api/upload', { files: uploadedFiles }, getAuthHeader())
+      }
+
       fetchMedia()
     } catch (error) {
+      console.error('Upload error:', error)
       alert(error.response?.data?.error || 'Upload failed')
     } finally {
       setUploading(false)
