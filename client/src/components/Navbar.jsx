@@ -4,7 +4,7 @@ function Navbar({ user, onLogout }) {
   return (
     <nav className="navbar feed-navbar">
       <Link to="/gallery" style={{ textDecoration: 'none' }}>
-        <h1>DON FRANCIS</h1>
+        <h1>ADAMS OUNAS</h1>
       </Link>
       <div className="nav-user">
         <Link to="/gallery">
