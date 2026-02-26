@@ -141,6 +141,14 @@ function Dashboard({ user }) {
     })
   }
 
+  // Get thumbnail URL (smaller size for grid view)
+  const getThumbnailUrl = (url) => {
+    if (url.includes('supabase.co')) {
+      return url + '?width=300&quality=70'
+    }
+    return url
+  }
+
   return (
     <div className="dashboard">
       {/* Upload Section */}
@@ -220,9 +228,9 @@ function Dashboard({ user }) {
               >
                 <span className="media-type-badge">{item.type}</span>
                 {item.type === 'video' ? (
-                  <video src={item.url} muted />
+                  <video src={item.url} muted preload="metadata" />
                 ) : (
-                  <img src={item.url} alt={item.originalName} />
+                  <img src={getThumbnailUrl(item.url)} alt={item.originalName} loading="lazy" />
                 )}
               </div>
               <div className="media-info">

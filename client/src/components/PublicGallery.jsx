@@ -20,6 +20,15 @@ function PublicGallery() {
     fetchMedia()
   }, [])
 
+  // Get thumbnail URL (smaller size for grid view)
+  const getThumbnailUrl = (url) => {
+    // Supabase storage supports image transformation
+    if (url.includes('supabase.co')) {
+      return url + '?width=400&quality=70'
+    }
+    return url
+  }
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', { 
       month: 'short', 
@@ -67,12 +76,17 @@ function PublicGallery() {
           >
             {item.type === 'video' ? (
               <div className="media-wrapper">
-                <video src={item.url} muted className="masonry-media" />
+                <video src={item.url} muted className="masonry-media" preload="metadata" />
                 <div className="video-indicator">▶</div>
               </div>
             ) : (
               <div className="media-wrapper">
-                <img src={item.url} alt={item.originalName} className="masonry-media" />
+                <img 
+                  src={getThumbnailUrl(item.url)} 
+                  alt={item.originalName} 
+                  className="masonry-media"
+                  loading="lazy"
+                />
               </div>
             )}
             <div className="item-overlay">
