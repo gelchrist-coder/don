@@ -7,6 +7,9 @@ function Navbar({ user, onLogout }) {
         <h1>DON FRANCIS</h1>
       </Link>
       <div className="nav-user">
+        <Link to="/gallery">
+          <button className="btn btn-secondary">View Gallery</button>
+        </Link>
         <Link to="/upload">
           <button className="btn btn-primary">Upload</button>
         </Link>
