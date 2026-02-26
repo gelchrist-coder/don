@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
+import api from '../config'
 
 function Dashboard({ user }) {
   const [media, setMedia] = useState([])
@@ -18,7 +18,7 @@ function Dashboard({ user }) {
   const fetchMedia = async () => {
     try {
       const endpoint = viewAll ? '/api/media/all' : '/api/media'
-      const response = await axios.get(endpoint, getAuthHeader())
+      const response = await api.get(endpoint, getAuthHeader())
       setMedia(response.data)
     } catch (error) {
       console.error('Failed to fetch media:', error)
@@ -43,7 +43,7 @@ function Dashboard({ user }) {
     setUploadProgress(0)
 
     try {
-      await axios.post('/api/upload', formData, {
+      await api.post('/api/upload', formData, {
         ...getAuthHeader(),
         headers: {
           ...getAuthHeader().headers,
@@ -67,7 +67,7 @@ function Dashboard({ user }) {
     if (!confirm('Are you sure you want to delete this?')) return
 
     try {
-      await axios.delete(`/api/media/${id}`, getAuthHeader())
+      await api.delete(`/api/media/${id}`, getAuthHeader())
       setMedia(media.filter(m => m.id !== id))
     } catch (error) {
       alert(error.response?.data?.error || 'Delete failed')

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
+import api from '../config'
 
 function Login({ onLogin }) {
   const [email, setEmail] = useState('')
@@ -14,7 +14,7 @@ function Login({ onLogin }) {
     setLoading(true)
 
     try {
-      const response = await axios.post('/api/login', { email, password })
+      const response = await api.post('/api/login', { email, password })
       onLogin(response.data.user, response.data.token)
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed. Please try again.')

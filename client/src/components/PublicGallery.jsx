@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import api from '../config'
 
 function PublicGallery() {
   const [media, setMedia] = useState([])
@@ -9,7 +9,7 @@ function PublicGallery() {
   useEffect(() => {
     const fetchMedia = async () => {
       try {
-        const response = await axios.get('/api/gallery')
+        const response = await api.get('/api/gallery')
         setMedia(response.data)
       } catch (error) {
         console.error('Failed to fetch media:', error)
