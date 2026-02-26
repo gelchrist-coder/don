@@ -41,7 +41,7 @@ function App() {
 
   return (
     <div className="app">
-      <Navbar user={user} onLogout={logout} />
+      {user && <Navbar user={user} onLogout={logout} />}
       <Routes>
         <Route 
           path="/gallery" 
