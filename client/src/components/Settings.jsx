@@ -86,8 +86,8 @@ function Settings({ user, onLogout }) {
               <span className="info-value">{user.username}</span>
             </div>
             <div className="info-row">
-              <span className="info-label">Email:</span>
-              <span className="info-value">{user.email}</span>
+              <span className="info-label">Phone:</span>
+              <span className="info-value">{user.phone}</span>
             </div>
           </div>
         </div>

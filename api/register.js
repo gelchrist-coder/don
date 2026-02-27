@@ -17,21 +17,21 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const { username, email, password } = req.body;
+    const { username, phone, password } = req.body;
 
-    if (!username || !email || !password) {
+    if (!username || !phone || !password) {
       return res.status(400).json({ error: 'All fields are required' });
     }
 
-    // Check if email exists
-    const { data: existingEmail } = await supabase
+    // Check if phone exists
+    const { data: existingPhone } = await supabase
       .from('users')
       .select('id')
-      .eq('email', email)
+      .eq('phone', phone)
       .single();
 
-    if (existingEmail) {
-      return res.status(400).json({ error: 'Email already registered' });
+    if (existingPhone) {
+      return res.status(400).json({ error: 'Phone number already registered' });
     }
 
     // Check if username exists
@@ -51,7 +51,7 @@ module.exports = async function handler(req, res) {
       .from('users')
       .insert({
         username,
-        email,
+        phone,
         password: hashedPassword
       })
       .select()
@@ -67,7 +67,7 @@ module.exports = async function handler(req, res) {
     res.status(201).json({
       message: 'User registered successfully',
       token,
-      user: { id: newUser.id, username: newUser.username, email: newUser.email }
+      user: { id: newUser.id, username: newUser.username, phone: newUser.phone }
     });
   } catch (error) {
     console.error('Register error:', error);

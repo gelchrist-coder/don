@@ -16,16 +16,16 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const { email, password } = req.body;
+    const { phone, password } = req.body;
 
     const { data: user, error } = await supabase
       .from('users')
       .select('*')
-      .eq('email', email)
+      .eq('phone', phone)
       .single();
 
     if (error || !user) {
-      return res.status(400).json({ error: 'Invalid email or password' });
+      return res.status(400).json({ error: 'Invalid phone number or password' });
     }
 
     const validPassword = await comparePassword(password, user.password);
@@ -37,7 +37,7 @@ module.exports = async function handler(req, res) {
 
     res.json({
       token,
-      user: { id: user.id, username: user.username, email: user.email }
+      user: { id: user.id, username: user.username, phone: user.phone }
     });
   } catch (error) {
     console.error('Login error:', error);

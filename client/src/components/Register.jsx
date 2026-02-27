@@ -4,7 +4,7 @@ import api from '../config'
 
 function Register({ onLogin }) {
   const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
@@ -27,7 +27,7 @@ function Register({ onLogin }) {
     setLoading(true)
 
     try {
-      const response = await api.post('/api/register', { username, email, password })
+      const response = await api.post('/api/register', { username, phone, password })
       onLogin(response.data.user, response.data.token)
     } catch (err) {
       setError(err.response?.data?.error || 'Registration failed. Please try again.')
@@ -55,12 +55,12 @@ function Register({ onLogin }) {
         </div>
         
         <div className="form-group">
-          <label>Email</label>
+          <label>Phone Number</label>
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
+            type="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="Enter your phone number"
             required
           />
         </div>

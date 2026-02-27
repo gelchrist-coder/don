@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import api from '../config'
 
 function Login({ onLogin }) {
-  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -14,7 +14,7 @@ function Login({ onLogin }) {
     setLoading(true)
 
     try {
-      const response = await api.post('/api/login', { email, password })
+      const response = await api.post('/api/login', { phone, password })
       onLogin(response.data.user, response.data.token)
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed. Please try again.')
@@ -31,12 +31,12 @@ function Login({ onLogin }) {
         {error && <div className="error-message">{error}</div>}
         
         <div className="form-group">
-          <label>Email</label>
+          <label>Phone Number</label>
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
+            type="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="Enter your phone number"
             required
           />
         </div>
